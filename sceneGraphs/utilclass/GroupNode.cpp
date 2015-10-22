@@ -26,23 +26,38 @@ GroupNode::GroupNode(ObjType type,pugi::xml_node node, bool isWorld)
 	_tx(0.0), _ty(0.0), _tz(0.0),
 	_angleX(0.0), _angleY(0.0), _angleZ(0.0), _foldAngle(0.0),_isWorld(isWorld),_type(type)
 {
-	/*if not world store the direction from the parent 
-	  if the node is world store the root GroupNode
-	*/
+	/* if not world store the direction from the parent 
+	 * if the node is world store the root GroupNode
+	 * if the node is empty means it is an object node just return
+	 */
 	if (node.empty()) return;
+
+	/* World have a child which is the root groupnode*/
 	if (_isWorld) {
 		GroupNode* rootGroup = new GroupNode(type, node);
 		addChild(rootGroup);
 	}
 	else {
+		/* The parent code in config.xml file indicates the 
+		 * relationship between the parent. Based on this 
+		 * code we can set translation.
+		 */
 		m_parentCode = node.attribute("code").as_int();
+
+		/* Initialize the object node*/
 		ObjectNode* object = new ObjectNode(type);
 		addChild(object);
+		
+		/* Set the color*/
 		object->setColor(node.attribute("r").as_double(), node.attribute("g").as_double(), node.attribute("b").as_double());
+		
+		/* Go through all the child node*/
 		for each (pugi::xml_node child in node.children())
 		{
 			int code = child.attribute("code").as_int();
 			Point3 childTranlation;
+
+			/* SQUARE for subquestion 1*/
 			if (type == SQUARE) {
 				switch (code)
 				{
@@ -62,11 +77,15 @@ GroupNode::GroupNode(ObjType type,pugi::xml_node node, bool isWorld)
 					break;
 				}
 			}
+			/* OCTAHEDRON for subquestion 2*/
 			else if(type == OCTAHEDRON) {
 				childTranlation = Point3(0, -object->getWidth()*(sqrtf(3)) / 6);
 			}
 			
+			/* Initilize the next groupnode*/
 			GroupNode* childGroup = new GroupNode(type, child);
+
+			/* Set the predefined translation and add to current goupnode*/
 			childGroup->translate(childTranlation._x, childTranlation._y, childTranlation._z);
 			addChild(childGroup);
 		}
@@ -75,8 +94,10 @@ GroupNode::GroupNode(ObjType type,pugi::xml_node node, bool isWorld)
 
 GroupNode::~GroupNode() {
 	for each(GroupNode* child in _children) {
-		removeChild(child);
+		delete child;
+		child = nullptr;
 	}
+	_children.clear();
 }
 
 void GroupNode::addChild(GroupNode* node)
@@ -132,6 +153,7 @@ void GroupNode::render()
 
 bool GroupNode::fold(float angle) {
 	bool isFinished = false;
+	/* Update the fold angle*/
 	_foldAngle += angle;
 	if (_type == SQUARE) {
 		if (_foldAngle < 0.0f) { _foldAngle = 0.0f; isFinished = true; }
@@ -141,6 +163,7 @@ bool GroupNode::fold(float angle) {
 		if (_foldAngle < 0.0f) { _foldAngle = 0.0f; isFinished = true; }
 		if (_foldAngle > 70.5f) { _foldAngle = 70.5f; isFinished = true; }
 	}
+	/*Update the child node*/
 	for each (GroupNode* child in _children)
 	{
 		if (child->getChildCount() != 0) child->fold(angle);

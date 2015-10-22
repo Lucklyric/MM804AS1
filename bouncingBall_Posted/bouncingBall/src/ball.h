@@ -126,8 +126,6 @@ public:
 
 	};
 
-
-
 	// add collision handler with a box or a paddle above
 	void draw(){
 		glColor3f(r,g,b);// color of ball

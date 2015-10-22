@@ -26,6 +26,7 @@
 #include <vector>
 #include "pugixml/pugixml.hpp"
 #include "Point3.h"
+#include <iostream>
 using namespace std;
 enum ObjType { CUBE, SPHERE, TORUS, TEAPOT, CONE, TETRAHEDRON,OCTAHEDRON, SQUARE,OTHER};
 class GroupNode 
@@ -43,6 +44,16 @@ protected:
     virtual void draw();
 public:
 	GroupNode(ObjType type = OTHER, pugi::xml_node node = pugi::xml_node(), bool isWorld = 0);
+
+	/**
+	 * @fn	virtual GroupNode::~GroupNode();
+	 *
+	 * @brief	Destructor. Clear the memory
+	 *
+	 * @author	Alvin
+	 * @date	2015-10-20
+	 */
+
 	virtual ~GroupNode();
 	void addChild(GroupNode* node);
 	void removeChild(GroupNode* node);
@@ -50,6 +61,20 @@ public:
 	void rotateX(float angle);
 	void rotateY(float angle);
 	void rotateZ(float angle);
+
+	/**
+	 * @fn	bool GroupNode::fold(float angle);
+	 *
+	 * @brief	Folds fold the current node with the angle
+	 *
+	 * @author	Alvin
+	 * @date	2015-10-20
+	 *
+	 * @param	angle	The changging of fold angle for this node.
+	 *
+	 * @return	true if it finish folding, false if it is unfinish.
+	 */
+
 	bool fold(float angle);
 	void inverseTransform() const;
     void render();
@@ -72,9 +97,21 @@ public:
 		 _colorR(1.0f), _colorG(1.0f), _colorB(1.0f),
 		 _width(40.0f)
 		  {}
-	//~ObjectNode() {} 
+	~ObjectNode() {}
 	void setObject(ObjType object, float scaleX, float scaleY, float scaleZ);
 	void setColor(float colorR, float colorG, float colorB);
+
+	/**
+	 * @fn	float ObjectNode::getWidth()
+	 *
+	 * @brief	Gets the width.
+	 *
+	 * @author	Alvin
+	 * @date	2015-10-20
+	 *
+	 * @return	The width.
+	 */
+
 	float getWidth() { return  _width; }
 private:
 	ObjType _object;

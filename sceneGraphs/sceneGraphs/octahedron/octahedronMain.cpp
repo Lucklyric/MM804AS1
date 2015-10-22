@@ -27,13 +27,30 @@ void draw()
 
 void setupRootWithConfigFile(void) {
 	pugi::xml_document configDoc;
+	/*Input the xml config file*/
 	configDoc.load_file("config.xml");
 
 	//octahedronRoot = new OctahedronNode(Point3(0, 0, 0), configDoc.child("root"), true);
+	/*According to the config file initialize the word*/
 	world = new GroupNode(OCTAHEDRON,configDoc.child("root"),true);
+	/*Get the Cube root groupnode*/
 	octRootGroup = world->getFirstChild();
 }
 
+/**
+* @fn	void closeFun()
+*
+* @brief	Closes the fun.
+* 			Deal with the memory before kill the program
+*
+* @author	Alvin
+* @date	2015-10-20
+*/
+
+void closeFun() {
+	if (world) delete world;
+	world = nullptr;
+}
 /**
 * @fn	void setupProjection()
 *
@@ -46,8 +63,10 @@ void setupRootWithConfigFile(void) {
 void setupProjection() {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+	/*Setting up projection*/
 	gluPerspective(60.0f, (float)screenSizeX / screenSizeY, 0.01f, 1000.0f);
 	glMatrixMode(GL_MODELVIEW);
+	/*Enable Z test*/
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 }
@@ -57,8 +76,10 @@ void display(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	/*Setting up camera*/
 	gluLookAt(0, 0, 350, 0, 0, 5, 0, 1.0f, 0);
-	glColor3f(0, 0, 0);// specify color in r,g,b
+	glColor3f(0, 0, 0);
+	/*Render the world*/
 	draw();
 	glutSwapBuffers();
 	glFlush();
@@ -92,13 +113,15 @@ void initialize(void)
 void keyInput(unsigned char key, int x, int y) {
 	switch (key) {
 	case 'f':
-		status = 2; //set to folding state
+		/*set to folding state*/
+		status = 2; 
 	case 'F':
 		//squareRoot->fold(5.0);
 		octRootGroup->fold(5.0);
 		break;
 	case 'u':
-		status = 1; // set to unfolding state
+		/*set to unfolding state*/
+		status = 1; 
 	case 'U':
 		//squareRoot->fold(-5.0);
 		octRootGroup->fold(-5.0);
@@ -151,6 +174,9 @@ void keyInput(unsigned char key, int x, int y) {
 		//squareRoot->rotate(Vec3(0, 0, 1));
 		octRootGroup->rotateZ(1);
 		break;
+	case 'q':
+		closeFun();
+		exit(0);
 	default:
 		break;
 	}
@@ -170,7 +196,7 @@ void update(int value) {
 		break;
 	}
 	glutPostRedisplay();
-
+	/*Update*/
 	glutTimerFunc(1, update, 0);
 }
 
@@ -188,7 +214,6 @@ void main(int argc, char **argv)
 	glutTimerFunc(1, update, 0);
 	glutDisplayFunc(display);
 	glutKeyboardFunc(keyInput);
+	glutCloseFunc(closeFun);
 	glutMainLoop();
-	delete world;
-	world = nullptr;
 }
