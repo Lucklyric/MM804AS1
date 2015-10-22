@@ -91,9 +91,13 @@ void update(int value)
 	// add code below
 	/*Balls' update*/
 	for (int i = 0; i<NUMBER_OF_BALLS; i++) {
+		/*Update the ball location based on it's current speed*/
 		bouncingBall[i].move();
+		/*Handling the wall collision*/
 		if (bouncingBall[i].boxHandler(wall)) { score--; }
+		/*Handling the paddle collision*/
 		if (bouncingBall[i].boxHandler(paddle)) { score++; }
+		/*Handling the ball to ball collision*/
 		for(int j = i+1; j < NUMBER_OF_BALLS; j++) {
 			bouncingBall[i].ballHandler(bouncingBall[j]);
 		}

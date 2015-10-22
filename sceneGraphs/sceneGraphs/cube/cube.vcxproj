@@ -124,6 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\utilclass\baseNode.cpp" />
+    <ClCompile Include="..\..\utilclass\GroupNode.cpp" />
     <ClCompile Include="..\..\utilclass\Matrix.cpp" />
     <ClCompile Include="..\..\utilclass\Point3.cpp" />
     <ClCompile Include="..\..\utilclass\pugixml\pugixml.cpp" />
@@ -133,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\utilclass\baseNode.h" />
+    <ClInclude Include="..\..\utilclass\GroupNode.h" />
     <ClInclude Include="..\..\utilclass\Matrix.h" />
     <ClInclude Include="..\..\utilclass\Point3.h" />
     <ClInclude Include="..\..\utilclass\pugixml\pugiconfig.hpp" />

@@ -42,6 +42,9 @@
     <ClCompile Include="..\..\utilclass\pugixml\pugixml.cpp">
       <Filter>Source Files\pugi</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\utilclass\GroupNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="octahedronNode.h">
@@ -64,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="..\..\utilclass\pugixml\pugixml.hpp">
       <Filter>Source Files\pugi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\utilclass\GroupNode.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

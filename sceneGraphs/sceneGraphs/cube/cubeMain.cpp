@@ -11,20 +11,26 @@
 #include <math.h>
 #include <iostream>
 #include "squareNode.h"
+#include "../../utilclass/GroupNode.h"
 using namespace std;
 GLint screenSizeX = 800, screenSizeY = 600;
 SquareNode* squareRoot=nullptr;
+GroupNode* world = nullptr;
+GroupNode* cubeRootGroup = nullptr;
+int status = 0; //0-idle state,1-unfolding,2-folding;
 //----------- draw ---------------------------- 
 void draw()
 {
-	squareRoot->draw();
+	//squareRoot->draw();
+	world->render();
 }
 
 void setupRootWithConfigFile(void) {
 	pugi::xml_document configDoc;
 	configDoc.load_file("config.xml");
-
-	squareRoot = new SquareNode(Point3(0, 0, 0), configDoc.child("root"),true);
+	//squareRoot = new SquareNode(Point3(0, 0, 0), configDoc.child("root"),true);
+	world = new GroupNode(SQUARE,configDoc.child("root"),true);
+	cubeRootGroup = world->getFirstChild();
 }
 
 /**
@@ -55,7 +61,6 @@ void display(void)
 	draw();
 	glutSwapBuffers();
 	glFlush();
-
 }
 
 
@@ -86,46 +91,64 @@ void initialize(void)
 void keyInput(unsigned char key, int x, int y){
 	switch (key){
 		case 'f':
-			squareRoot->fold(5.0);
+			status = 2; //set to folding state
+		case 'F':
+			//squareRoot->fold(5.0);
+			cubeRootGroup->fold(5.0);
 			break;
 		case 'u':
-			squareRoot->fold(-5.0);
+			status = 1; // set to unfolding state
+		case 'U':
+			//squareRoot->fold(-5.0);
+			cubeRootGroup->fold(-5.0);
 			break;
 		case 'a':
-			squareRoot->translate(Vec3(-1, 0, 0));
+			//squareRoot->translate(Vec3(-1, 0, 0));
+			cubeRootGroup->translate(-1, 0, 0);
 			break;
 		case 'A':
-			squareRoot->translate(Vec3(1, 0, 0));
+			//squareRoot->translate(Vec3(1, 0, 0));
+			cubeRootGroup->translate(1, 0, 0);
 			break;
 		case 'b':
-			squareRoot->translate(Vec3(0, -1, 0));
+			//squareRoot->translate(Vec3(0, -1, 0));
+			cubeRootGroup->translate(0, -1, 0);
 			break;
 		case 'B':
-			squareRoot->translate(Vec3(0, 1, 0));
+			//squareRoot->translate(Vec3(0, 1, 0));
+			cubeRootGroup->translate(0, 1, 0);
 			break;
 		case 'c':
-			squareRoot->translate(Vec3(0, 0, -1));
+			//squareRoot->translate(Vec3(0, 0, -1));
+			cubeRootGroup->translate(0, 0, -1);
 			break;
 		case 'C':
-			squareRoot->translate(Vec3(0, 0, 1));
+			//squareRoot->translate(Vec3(0, 0, 1));
+			cubeRootGroup->translate(0, 0, 1);
 			break;
 		case 'x':
-			squareRoot->rotate(Vec3(-1, 0, 0));
+			//squareRoot->rotate(Vec3(-1, 0, 0));
+			cubeRootGroup->rotateX(-1);
 			break;
 		case 'X':
-			squareRoot->rotate(Vec3(1, 0, 0));
+			//squareRoot->rotate(Vec3(1, 0, 0));
+			cubeRootGroup->rotateX(1);
 			break;
 		case 'y':
-			squareRoot->rotate(Vec3(0, -1, 0));
+			//squareRoot->rotate(Vec3(0, -1, 0));
+			cubeRootGroup->rotateY(-1);
 			break;
 		case 'Y':
-			squareRoot->rotate(Vec3(0, 1, 0));
+			//squareRoot->rotate(Vec3(0, 1, 0));
+			cubeRootGroup->rotateY(1);
 			break;
 		case 'z':
-			squareRoot->rotate(Vec3(0, 0, -1));
+			//squareRoot->rotate(Vec3(0, 0, -1));
+			cubeRootGroup->rotateZ(-1);
 			break;
 		case 'Z':
-			squareRoot->rotate(Vec3(0, 0, 1));
+			//squareRoot->rotate(Vec3(0, 0, 1));
+			cubeRootGroup->rotateZ(1);
 			break;
 		default:
 			break;
@@ -133,6 +156,22 @@ void keyInput(unsigned char key, int x, int y){
 	glutPostRedisplay();
 }
 
+void update(int value) {
+	switch (status)
+	{
+	case 1:
+		if (cubeRootGroup->fold(-1.0)) status = 0;
+		break;
+	case 2:
+		if (cubeRootGroup->fold(1.0)) status = 0;
+		break;
+	default:
+		break;
+	}
+	glutPostRedisplay();
+
+	glutTimerFunc(1, update, 0);
+}
 
 
 //  ------- Main ---------- 
@@ -145,9 +184,10 @@ void main(int argc, char **argv)
 	glutInitWindowPosition(0, 0);
 	glutCreateWindow("Cube");
 	initialize();
+	glutTimerFunc(1, update, 0);
 	glutDisplayFunc(display);
 	glutKeyboardFunc(keyInput);
 	glutMainLoop();
-	delete squareRoot;
-	squareRoot = nullptr;
+	delete world;
+	world = nullptr;
 }
