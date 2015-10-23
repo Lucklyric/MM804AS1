@@ -10,11 +10,11 @@
 #include <GL/freeglut.h>
 #include <math.h>
 #include <iostream>
-#include "squareNode.h"
+//#include "squareNode.h"
 #include "../../utilclass/GroupNode.h"
 using namespace std;
 GLint screenSizeX = 800, screenSizeY = 600;
-SquareNode* squareRoot=nullptr;
+//SquareNode* squareRoot=nullptr;
 GroupNode* world = nullptr;
 GroupNode* cubeRootGroup = nullptr;
 int status = 0; //0-idle state,1-unfolding,2-folding;
@@ -116,13 +116,21 @@ void keyInput(unsigned char key, int x, int y){
 	switch (key){
 		case 'f':
 			status = 2; //set to folding state
+			break;
 		case 'F':
+			status = 2; //set to folding state
+			break;
+		case '[':
 			//squareRoot->fold(5.0);
 			cubeRootGroup->fold(5.0);
 			break;
 		case 'u':
 			status = 1; // set to unfolding state
+			break;
 		case 'U':
+			status = 1; // set to unfolding state
+			break;
+		case ']':
 			//squareRoot->fold(-5.0);
 			cubeRootGroup->fold(-5.0);
 			break;

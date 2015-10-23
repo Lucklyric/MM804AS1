@@ -71,7 +71,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(GAME_DESIGN_INCLUDE);$(IncludePath)</IncludePath>
     <LibraryPath>$(GAME_DESIGN_LIB_x86);$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)$(Configuration)\octahedron</OutDir>
+    <OutDir>$(SolutionDir)\Output\octahedron</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

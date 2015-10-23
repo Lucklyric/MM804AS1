@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root r="0" g="1" b="0" code="-1">
+	<child r="1" g="0" b="0" code="0">
+		<child r="0" g="0" b="1" code="2"> 
+			<child r="1" g="0" b="1" code="0">
+				<child r="1" g="0.5" b="1" code="1"/>
+				<child r="1" g="0.5" b="0.7" code="2">
+					<child r="0.5" g="0.5" b="0" code="0"/>
+				</child>
+			</child>
+			<child r="1" g="1" b="0" code="1"/>
+		</child> 
+	</child>
+</root>

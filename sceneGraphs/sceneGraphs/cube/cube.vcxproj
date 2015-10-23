@@ -71,7 +71,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(GAME_DESIGN_INCLUDE);$(IncludePath)</IncludePath>
     <LibraryPath>$(GAME_DESIGN_LIB_x86);$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)$(Configuration)\cube</OutDir>
+    <OutDir>$(SolutionDir)\Output\cube</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -142,9 +142,6 @@
     <ClInclude Include="..\..\utilclass\Triangle.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="squareNode.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="cube.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

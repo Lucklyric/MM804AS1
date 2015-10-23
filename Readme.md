@@ -25,8 +25,8 @@ To compile the source code
 Functions:
 Except the requierd functions in Assignments
 q-exit the program
-F-fold for 5 degree
-U-unfold for 5 degree
+[-fold with 5 degree
+]-unfold with 5 degree
 -----------------------------------------
 Contact information
 xinyao1@ualberta.ca

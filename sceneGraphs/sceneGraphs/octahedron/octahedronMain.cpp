@@ -10,11 +10,11 @@
 #include <GL/freeglut.h>
 #include <math.h>
 #include <iostream>
-#include "octahedronNode.h"
+//#include "octahedronNode.h"
 #include "../../utilclass/GroupNode.h"
 using namespace std;
 GLint screenSizeX = 800, screenSizeY = 600;
-OctahedronNode* octahedronRoot = nullptr;
+//OctahedronNode* octahedronRoot = nullptr;
 GroupNode* world = nullptr;
 GroupNode* octRootGroup = nullptr;
 int status = 0; //0-idle state,1-unfolding,2-folding;
@@ -113,16 +113,22 @@ void initialize(void)
 void keyInput(unsigned char key, int x, int y) {
 	switch (key) {
 	case 'f':
-		/*set to folding state*/
-		status = 2; 
+		status = 2; //set to folding state
+		break;
 	case 'F':
+		status = 2; //set to folding state
+		break;
+	case '[':
 		//squareRoot->fold(5.0);
 		octRootGroup->fold(5.0);
 		break;
 	case 'u':
-		/*set to unfolding state*/
-		status = 1; 
+		status = 1; // set to unfolding state
+		break;
 	case 'U':
+		status = 1; // set to unfolding state
+		break;
+	case ']':
 		//squareRoot->fold(-5.0);
 		octRootGroup->fold(-5.0);
 		break;
